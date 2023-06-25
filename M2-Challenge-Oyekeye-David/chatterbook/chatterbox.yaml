@@ -1,0 +1,80 @@
+openapi: 3.0.1
+info:
+  title: Chatterbox API
+  version: v1
+servers:
+- url: http://localhost:8080
+tags:
+  - name: users
+    description: get all user objects
+  - name: user
+    description: get data from specific users
+paths:
+  /users:
+    get:
+      tags:
+        - users
+      summary: Returns a list of all users.
+      responses:
+        200:
+          description: A JSON array of all users.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+  /users/{username}:
+    get:
+      tags:
+        - user
+      summary: Returns a single user by username.
+      parameters:
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: A user object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+  /users/{username}/chatterPosts:
+    get:
+      tags:
+        - user
+      summary: Returns a list of chatterPosts for a user by username.
+      parameters:
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: A JSON array of Chatterbox objects.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Chatterbox'
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        name:
+          type: string
+        chatterPosts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Chatterbox'
+    Chatterbox:
+      type: object
+      properties:
+        text:
+          type: string
