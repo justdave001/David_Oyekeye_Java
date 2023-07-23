@@ -65,7 +65,7 @@ public class ChatterbookController {
     public ResponseEntity<List<ChatterPost>> getAllChatterPosts(@PathVariable String username){
         Optional<User> users = userList.stream()
                         .filter(user -> user.getName().equals(username))
-                .findFirst();
+                        .findFirst();
         return users
                 .map(user -> ResponseEntity.ok(user.getChatterPosts()))
                 .orElse(ResponseEntity.notFound().build());
